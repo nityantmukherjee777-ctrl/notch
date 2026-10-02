@@ -1,0 +1,11 @@
+All rights reserved.
+
+The original Notch application source and project artwork are proprietary.
+Publishing this source does not grant permission to use, modify, distribute,
+sublicense, or sell it, except as required by applicable law or GitHub's Terms
+of Service. No open-source license is granted for the original project.
+
+Third-party components retain their own licenses. In particular, the vendored
+MediaRemote Adapter is covered by Vendor/mediaremote-adapter/LICENSE, and
+Sparkle is covered by its upstream license. This notice does not restrict the
+rights granted by those third-party licenses. See THIRD_PARTY.md for details.

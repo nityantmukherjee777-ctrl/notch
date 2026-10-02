@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+    <key>CFBundleExecutable</key><string>Notch</string>
+    <key>CFBundleIdentifier</key><string>local.notch.mac</string>
+    <key>CFBundleName</key><string>Notch</string>
+    <key>CFBundleDisplayName</key><string>Notch</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>1.1.0</string>
+    <key>CFBundleVersion</key><string>21</string>
+    <key>CFBundleIconFile</key><string>AppIcon</string>
+    <key>LSMinimumSystemVersion</key><string>13.0</string>
+    <key>LSUIElement</key><true/>
+    <key>NSHighResolutionCapable</key><true/>
+    <key>NSAppleEventsUsageDescription</key><string>Notch shows artwork and playback controls for Spotify and Apple Music when you connect them.</string>
+    <key>NSBluetoothAlwaysUsageDescription</key><string>Notch shows a brief local animation and reported battery charge when AirPods or a recognized Apple headset connects. Device names are not saved.</string>
+    <key>NSAudioCaptureUsageDescription</key><string>Notch samples system audio while music is visible in the compact notch or while you hover over the media scrubber to animate its beat-synced visualizers.</string>
+    <key>NSHumanReadableCopyright</key><string>Personal build · 2026</string>
+    <key>SUEnableAutomaticChecks</key><true/>
+    <key>SUAutomaticallyUpdate</key><true/>
+    <key>SUScheduledCheckInterval</key><integer>3600</integer>
+    <key>SUAllowsAutomaticUpdates</key><true/>
+    <key>SUEnableSystemProfiling</key><false/>
+    <key>SUVerifyUpdateBeforeExtraction</key><true/>
+    <key>SURequireSignedFeed</key><true/>
+</dict></plist>

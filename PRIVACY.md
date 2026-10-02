@@ -1,0 +1,21 @@
+# Data handling in the current build
+
+- Preferences and countdown state are stored locally in the app's macOS preferences.
+- Sparkle is included for future updates. This unconfigured build does not contact an update server. Once a release feed is configured, update checks and downloads contact its HTTPS hosting provider, exposing normal connection metadata and app version. Sparkle system profiling is disabled. Update preferences and last-check state are stored locally. Hourly checks and automatic download/installation default on; users can disable them in Settings → About.
+- Spotify/Apple Music metadata is read locally after Automation approval. System Now Playing metadata comes from the local MediaRemote helper.
+- Spotify artwork is fetched from the supported Spotify image hosts. Network requests necessarily expose the request and connection metadata to that host. Artwork is downsampled for display.
+- Opening lyrics sends track title, artist, album and duration to LRCLIB over HTTPS. Lyrics are cached in memory, up to 30 responses. Availability and service data handling are controlled by LRCLIB.
+- Visible compact music bars or hovering the media slider while playing creates a system-audio tap. Samples are kept only in a short rolling analysis buffer; capture stops when neither visualizer is visible or music tracking is disabled. No microphone, screen pixels, saved recordings or audio upload are involved.
+- Codex usage uses its local app-server and existing sign-in. Notch requests quota information, does not start model turns, and discards provider diagnostic output. Bubble activity uses numeric quota changes and runtime/token notifications when supplied. To respond promptly on desktop builds without a shared app-server socket, a local file-event watcher also checks session-file size and modification time under CODEX_HOME/sessions (normally ~/.codex/sessions). It does not open or read those files or chat history. Only transient metadata fingerprints are retained in memory; disabling tracking stops the watcher. Session writes indicate local work, including session bookkeeping, rather than exact token consumption. Quota changes are account-wide, so activity may originate from another signed-in client. Codex's own service/network behavior is separate.
+- Accessibility enables keyboard HUD replacement. Notch does not keep a log of keystrokes. Unsupported keys are passed through.
+- When Bluetooth connection animation is enabled, Notch listens for new local device-connection events and checks already-cached vendor/device-class metadata. Only recognized Apple audio headsets show a device illustration and reported battery charge in the compact notch; other devices do not produce a display or battery query; the sanitized device name and battery status are available as accessibility/help text. On connection, Apple's System Information tool supplies a local Bluetooth snapshot containing metadata already known to macOS. Only the matching connected device's battery fields are used; the bounded snapshot is discarded, and there is no idle polling or BLE scan. A transient in-memory fingerprint suppresses duplicate profile events. Addresses are used transiently to match the current reading; raw addresses, device names, battery readings, and connection history are not persisted or uploaded. Turning the switch off unregisters the listener, stops any battery query, and clears the indicator.
+- No clipboard history, meeting transcription, dictation, camera capture, telemetry, crash uploads or third-party analytics are currently implemented.
+
+Future dictation/interview features require a separate data-flow review and
+updated disclosures before microphone/cloud processing is added. The publisher
+must add their identity, contact and applicable privacy notices before release.
+
+Uninstall: quit Notch, remove the app, and remove its entries from macOS
+Accessibility, Automation and System Audio Recording Only if desired. Local
+preferences may be removed separately. Do not delete the developer signing
+identity unless you intend to stop making compatible personal builds.
