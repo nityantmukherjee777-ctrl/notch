@@ -32,7 +32,7 @@ import NotchCore
                 url.queryItems?.append(URLQueryItem(name: "duration", value: String(duration)))
             }
             var request = URLRequest(url: url.url!); request.timeoutInterval = 12
-            request.setValue("Notch/1.1 (personal macOS player)", forHTTPHeaderField: "User-Agent")
+            request.setValue("NotchHarbor/1.1 (personal macOS player)", forHTTPHeaderField: "User-Agent")
             do {
                 let data = try await BoundedDownload.fetch(request, limit: 1_000_000, hosts: ["lrclib.net"])
                 guard !Task.isCancelled, let self, self.identity == track.identity else { return }

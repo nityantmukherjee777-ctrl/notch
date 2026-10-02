@@ -5,7 +5,7 @@ import plistlib
 import subprocess
 import sys
 
-app = Path(sys.argv[1] if len(sys.argv) > 1 else "dist/Notch.app").resolve()
+app = Path(sys.argv[1] if len(sys.argv) > 1 else "dist/NotchHarbor.app").resolve()
 problems = []
 def command(*args):
     return subprocess.run(args, text=True, capture_output=True)

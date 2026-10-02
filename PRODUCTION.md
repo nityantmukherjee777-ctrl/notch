@@ -6,22 +6,24 @@ The current bundle is a usable local release. Public distribution should use **d
 
 The September 29 audit fixes and source package are a release candidate, **not
 a notarized public binary**. GitHub source hosting and GitHub Releases are the
-intended distribution route. A GitHub-hosted `.app` has the same Developer ID
-and notarization requirements as any other direct download; hosting alone does
-not resolve Gatekeeper or permission onboarding.
+intended distribution route. GitHub hosting does not resolve Gatekeeper or permission onboarding. The owner
+currently chooses personal signing without Developer membership; a local/test
+DMG can be prepared with that identity, but downloaded copies may need manual
+Gatekeeper approval. Developer ID and notarization remain the recommended path
+for a smoother public download. See INSTALLATION.md.
 
 Implemented: retained local signing identity, Hardened Runtime build support,
 bounded network/media input, regression checks, staged package replacement,
 source-only export, and a fail-closed public-binary check. See AUDIT.md for the
 findings and evidence. Source hosting is configured at
-[nityantmukherjee777-ctrl/notch](https://github.com/nityantmukherjee777-ctrl/notch).
+[nityantmukherjee777-ctrl/notchharbor](https://github.com/nityantmukherjee777-ctrl/notchharbor).
 No binary release or update feed has been published.
 
 Publisher decisions still required: owned bundle identifier, copyright/contact,
 Developer ID Application credentials. The owner selected all rights reserved
 for original app source and artwork; third-party licenses remain intact. Do not upload the
 personal signing keychain. There are unrelated personal documents in the local
-workspace: publish `dist/Notch-source.zip`, not an archive of the entire folder.
+workspace: publish `dist/NotchHarbor-source.zip`, not an archive of the entire folder.
 
 ## Reproducible checks and packaging
 
@@ -44,12 +46,12 @@ archive with Apple's `notarytool` using credentials stored in Keychain, inspect
 the accepted result, staple with `xcrun stapler staple`, and run:
 
 ```sh
-python3 scripts/check-public-release.py dist/Notch.app
+python3 scripts/check-public-release.py dist/NotchHarbor.app
 ```
 
 Publish the final stapled archive with its SHA-256 checksum and RELEASE_NOTES.md
 only after the gate and functional checklist pass. Sparkle 2.10.0 is now integrated;
-GitHub hosting and DMG packaging are deferred. Configure and test the signed feed
+Source hosting and local/test DMG packaging are complete; public binary hosting is deferred. Configure and test the signed feed
 as described in [UPDATES.md](UPDATES.md) before enabling public update rollout.
 
 ## Product identity
@@ -83,7 +85,7 @@ Apple’s references:
 ## Release quality gate
 
 - Run unit and state-restoration tests with the final Xcode toolchain.
-- Verify the universal package with `python3 scripts/check-compatibility.py dist/Notch.app`, then test Intel and Apple silicon on the older OS versions listed in [COMPATIBILITY.md](COMPATIBILITY.md). Binary deployment metadata alone does not prove runtime support.
+- Verify the universal package with `python3 scripts/check-compatibility.py dist/NotchHarbor.app`, then test Intel and Apple silicon on the older OS versions listed in [COMPATIBILITY.md](COMPATIBILITY.md). Binary deployment metadata alone does not prove runtime support.
 - Test a quarantined download on a clean macOS user account and a second Mac. Verify first launch, Gatekeeper, permission onboarding, relaunch, update, and uninstall.
 - Test built-in and external displays, full-screen apps, display changes, sleep/wake, multiple audio outputs, unsupported volume, and rapid hardware-key repeats.
 - Test Spotify, Apple Music, supported browser media, paused/ended sessions, artwork failure, missing lyrics, plain lyrics, synced seeking, and offline operation.

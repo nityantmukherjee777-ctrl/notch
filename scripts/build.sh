@@ -20,7 +20,7 @@ swift build -c "$configuration" --arch x86_64 --disable-sandbox --scratch-path .
 intel_binary_dir="$(swift build -c "$configuration" --arch x86_64 --disable-sandbox --scratch-path .build/intel --cache-path .build/cache --show-bin-path)"
 package_stage="$(mktemp -d "$PWD/.build/package.XXXXXX")"
 trap 'rm -rf "$package_stage"' EXIT
-app_bundle="$package_stage/Notch.app"
+app_bundle="$package_stage/NotchHarbor.app"
 mkdir -p "$app_bundle/Contents/MacOS" "$app_bundle/Contents/Resources"
 xcrun lipo -create "$arm_binary_dir/Notch" "$intel_binary_dir/Notch" -output "$app_bundle/Contents/MacOS/Notch"
 cp Resources/Info.plist "$app_bundle/Contents/Info.plist"
@@ -55,5 +55,5 @@ cp "$sparkle_distribution/LICENSE" "$app_bundle/Contents/Resources/Sparkle-LICEN
 python3 scripts/check-compatibility.py "$app_bundle"
 python3 scripts/sign-app.py "$app_bundle"
 # Do not overwrite the runnable app until the complete replacement is signed.
-python3 scripts/install-local-build.py "$app_bundle" "$PWD/dist/Notch.app"
-print "Built: $PWD/dist/Notch.app"
+python3 scripts/install-local-build.py "$app_bundle" "$PWD/dist/NotchHarbor.app"
+print "Built: $PWD/dist/NotchHarbor.app"

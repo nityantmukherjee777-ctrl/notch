@@ -8,7 +8,7 @@ update choices on launch. Check for Updates is available in both menus and
 Settings → About. Without release configuration these controls are disabled,
 and no Sparkle requests, permission prompts or helper processes are started.
 
-The source repository is [nityantmukherjee777-ctrl/notch](https://github.com/nityantmukherjee777-ctrl/notch).
+The source repository is [nityantmukherjee777-ctrl/notchharbor](https://github.com/nityantmukherjee777-ctrl/notchharbor).
 Binary release hosting, DMG packaging and live update activation remain deferred
 at the user's request. This integration does not require an Apple Developer
 membership. The current build retains the local signing identity. Developer ID
@@ -73,7 +73,7 @@ uses the existing service shutdown so audio taps and Keep Awake are released.
 
 The CLT build uses `ditto` to embed the framework and helper binaries, preserving
 executable bits and symlinks. `sign-app.py` re-signs helpers inside out, preserving
-their upstream entitlements, then signs Sparkle, MediaRemoteAdapter and Notch.
+their upstream entitlements, then signs Sparkle, MediaRemoteAdapter and NotchHarbor.
 The host's Automation entitlement is not copied to helpers. Runtime framework
 lookup uses `@executable_path/../Frameworks`. Only an explicitly approved personal
 build adds the host-only library-validation exception described above.
@@ -89,7 +89,7 @@ python3 scripts/test-signing-policy.py
 ./scripts/test.sh
 # Explicit fallback only for the current mismatched CLT / Testing framework:
 python3 scripts/test-compatible.py
-codesign --verify --deep --strict dist/Notch.app
+codesign --verify --deep --strict dist/NotchHarbor.app
 ```
 
 Before publishing, test an actual installed old build updating to a newer build

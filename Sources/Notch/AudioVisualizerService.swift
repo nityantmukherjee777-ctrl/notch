@@ -34,6 +34,9 @@ enum AudioTapError: Error {
     private(set) var receivedFrames = 0
     @Published private(set) var error: String?
     @Published private(set) var needsRetry: Bool
+    @Published private(set) var captureEnabled: Bool
+    @Published private(set) var hasCaptured: Bool
+    var setupRequired: Bool { isSupported && !captureEnabled }
     let isSupported: Bool
 
     private static let barCount = 72
@@ -58,10 +61,12 @@ enum AudioTapError: Error {
     private let monitorHealth: Bool
     private static let retryKey = "audioVisualizerNeedsRetry"
     private static let capturedKey = "audioVisualizerHasCaptured"
+    private static let enabledKey = "audioVisualizerOptedIn"
 
     init(defaults: UserDefaults = .standard,
          factory: CaptureFactory? = nil,
          captureSupported: Bool? = nil,
+         captureEnabled: Bool? = nil,
          dispose: @escaping (AudioCaptureStream) -> Void = AudioCaptureWorker.stop,
          clock: @escaping () -> TimeInterval = { ProcessInfo.processInfo.systemUptime },
          recoveryDelay: @escaping (Int) -> Duration = { .seconds(min(30, pow(2, Double($0 - 1)))) },
@@ -76,6 +81,9 @@ enum AudioTapError: Error {
         else if #available(macOS 14.2, *) { isSupported = true }
         else { isSupported = factory != nil }
         needsRetry = isSupported && defaults.bool(forKey: Self.retryKey)
+        let previouslyCaptured = defaults.bool(forKey: Self.capturedKey)
+        hasCaptured = previouslyCaptured
+        self.captureEnabled = captureEnabled ?? (factory != nil || previouslyCaptured || defaults.bool(forKey: Self.enabledKey))
         if !isSupported { error = "Beat-synced visualizers require macOS 14.2 or later. Music controls still work." }
         else if needsRetry { error = "Check System Audio Recording Only, then choose Retry visualizer." }
     }
@@ -87,6 +95,8 @@ enum AudioTapError: Error {
 
     func retry() {
         guard isSupported else { return }
+        captureEnabled = true
+        defaults.set(true, forKey: Self.enabledKey)
         invalidateCapture()
         consecutiveFailures = 0
         needsRetry = false
@@ -98,7 +108,7 @@ enum AudioTapError: Error {
     /// Wake and session recovery preserve an already-hovered scrubber's demand.
     func recover() {
         suspended = false
-        guard isSupported, requested, !needsRetry else { return }
+        guard isSupported, captureEnabled, requested, !needsRetry else { return }
         scheduleRecovery(delay: .milliseconds(350), countFailure: false)
     }
 
@@ -122,7 +132,7 @@ enum AudioTapError: Error {
                 self.lastSpectrumTime = now
                 self.receivedFrames += 1
                 self.consecutiveFailures = 0
-                if !self.defaults.bool(forKey: Self.capturedKey) { self.defaults.set(true, forKey: Self.capturedKey) }
+                if !self.hasCaptured { self.hasCaptured = true; self.defaults.set(true, forKey: Self.capturedKey) }
                 self.compactLevels = self.compactSpectrum.scales(playing: true, levels: levels, deltaTime: interval)
                 self.levels = levels
                 if self.error != nil { self.error = nil }
@@ -143,7 +153,7 @@ enum AudioTapError: Error {
     }
 
     private func updateDemand() {
-        guard isSupported else { return }
+        guard isSupported, captureEnabled else { return }
         stopTask?.cancel(); stopTask = nil
         if requested {
             guard tap == nil, !starting, !suspended, recoveryTask == nil, !needsRetry else { return }
@@ -333,7 +343,7 @@ private final class SystemAudioTap: AudioCaptureStream {
 
     private func configure() throws {
         let description = CATapDescription()
-        description.name = "Notch Beat Visualizer"
+        description.name = "NotchHarbor Beat Visualizer"
         description.processes = []
         description.isPrivate = true
         description.isExclusive = true
@@ -358,7 +368,7 @@ private final class SystemAudioTap: AudioCaptureStream {
         try check(uidStatus, "read tap identifier")
 
         let aggregateDescription: [String: Any] = [
-            kAudioAggregateDeviceNameKey: "Notch Visualizer",
+            kAudioAggregateDeviceNameKey: "NotchHarbor Visualizer",
             kAudioAggregateDeviceUIDKey: "local.notch.visualizer.\(UUID().uuidString)",
             kAudioAggregateDeviceIsPrivateKey: true,
             kAudioAggregateDeviceTapAutoStartKey: true,

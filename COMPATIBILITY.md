@@ -7,7 +7,7 @@ that every supported Mac model has been physically tested.
 
 | Feature | Availability |
 | --- | --- |
-| Notch, activities, settings, timer, Keep Awake, lyrics | macOS 13+ |
+| NotchHarbor, activities, settings, timer, Keep Awake, lyrics | macOS 13+ |
 | Display placement | Physical notch when available; floating capsule otherwise |
 | Live audio visualizers | macOS 14.2+; earlier versions retain the playback slider and static compact bars |
 | Spotify / Apple Music | Installed desktop app and Automation permission; system Now Playing fallback where available |
@@ -31,7 +31,7 @@ at the owner's request. It is not guaranteed by this mode.
 
 ## Verification
 
-`scripts/build.sh` packages both architecture slices for Notch and the media
+`scripts/build.sh` packages both architecture slices for NotchHarbor and the media
 adapter, and embeds Sparkle's universal framework and helpers. Before signing
 and installation, `scripts/check-compatibility.py` checks all native executable
 slices and their deployment targets against the app's Info.plist minimum.

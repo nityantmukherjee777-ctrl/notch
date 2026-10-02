@@ -7,13 +7,17 @@ struct SettingsView: View {
     @State private var section = "General"
     @State private var loginEnabled = SMAppService.mainApp.status == .enabled
     @State private var loginError: String?
-    private let sections = [("General", "slider.horizontal.3"), ("Activities", "square.stack.3d.up"), ("Tracked Apps", "sparkle"), ("Appearance", "paintpalette"), ("Shortcuts", "command"), ("About", "circle.lefthalf.filled")]
+    private let sections = [("Setup", "checkmark.shield"), ("General", "slider.horizontal.3"), ("Activities", "square.stack.3d.up"), ("Tracked Apps", "sparkle"), ("Appearance", "paintpalette"), ("Shortcuts", "command"), ("About", "circle.lefthalf.filled")]
+    init(state: AppState, showSetup: Bool = false) {
+        self.state = state
+        _section = State(initialValue: showSetup ? "Setup" : "General")
+    }
     var body: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     Image(systemName: "circle.lefthalf.filled").font(.system(size: 26))
-                    VStack(alignment: .leading, spacing: 2) { Text("Notch").font(.system(size: 18, weight: .semibold)); Text("A quieter kind of useful.").font(.system(size: 9)).foregroundStyle(.secondary) }
+                    VStack(alignment: .leading, spacing: 2) { Text("NotchHarbor").font(.system(size: 18, weight: .semibold)); Text("A quieter kind of useful.").font(.system(size: 9)).foregroundStyle(.secondary) }
                 }.padding(.bottom, 25).padding(.top, 17)
                 ForEach(sections, id: \.0) { title, symbol in
                     Button { section = title } label: {
@@ -28,6 +32,7 @@ struct SettingsView: View {
                 Text(section).font(.system(size: 25, weight: .semibold)).padding(.horizontal, 24).padding(.top, 28).padding(.bottom, 12)
                 Form {
                     switch section {
+                    case "Setup": PermissionSetupView(state: state)
                     case "General": general
                     case "Activities": activities
                     case "Tracked Apps": trackedApps
@@ -56,17 +61,17 @@ struct SettingsView: View {
                 }
             }
             Section("Keyboard HUD") {
-                Toggle("Use Notch for volume and brightness keys", isOn: Binding(get: { state.preferences.replaceSystemHUD != false }, set: { state.preferences.replaceSystemHUD = $0 }))
+                Toggle("Use NotchHarbor for volume and brightness keys", isOn: Binding(get: { state.preferences.replaceSystemHUD != false }, set: { state.preferences.replaceSystemHUD = $0 }))
                 Text(state.mediaKeys.status).font(.caption).foregroundStyle(state.mediaKeys.active ? Color.secondary : .orange)
                 if !state.mediaKeys.active && state.preferences.replaceSystemHUD != false {
                     Button("Enable Accessibility…") { state.mediaKeys.requestAccess() }
                 }
-                Text("Notch handles only volume, mute, and brightness keys. When Notch quits, macOS handles them again. Until Accessibility is active, the system HUD remains in control and Notch waits instead of showing duplicate feedback.").font(.caption).foregroundStyle(.secondary)
+                Text("NotchHarbor handles only volume, mute, and brightness keys. When NotchHarbor quits, macOS handles them again. Until Accessibility is active, the system HUD remains in control and NotchHarbor waits instead of showing duplicate feedback.").font(.caption).foregroundStyle(.secondary)
             }
             Section {
                 Toggle("Launch at login", isOn: Binding(get: { loginEnabled }, set: setLogin))
                 if let loginError { Text(loginError).foregroundStyle(.orange).font(.caption) }
-                Text("Full-screen apps stay quiet. Click Notch or use your shortcut to open it in full screen.").font(.caption).foregroundStyle(.secondary)
+                Text("Full-screen apps stay quiet. Click NotchHarbor or use your shortcut to open it in full screen.").font(.caption).foregroundStyle(.secondary)
                 Text("If Atoll, Notchy, or Lemon also occupies the notch, pause its notch overlay to avoid overlapping controls.").font(.caption).foregroundStyle(.secondary)
             }
         }
@@ -142,14 +147,14 @@ struct SettingsView: View {
                 Text("Pinned activities take the main notch when available. Circular activity bubbles sit directly beside it. Click a circle for details.").font(.caption).foregroundStyle(.secondary)
             }
             Section {
-                Text("Playback bars animate while music plays and settle when paused. They indicate playback, without recording audio. Reduce Motion keeps them still. Keyboard opening is immediate.").font(.caption).foregroundStyle(.secondary)
+                Text("Playback bars follow system audio after you enable the visualizer in Setup. Audio is analyzed locally and never saved. Reduce Motion removes transition animation. Keyboard opening is immediate.").font(.caption).foregroundStyle(.secondary)
             }
         }
     }
     private var shortcuts: some View {
         Section {
             Toggle("Enable global shortcut", isOn: binding(\.shortcutEnabled))
-            Picker("Open / close Notch", selection: binding(\.shortcutKey)) { ForEach(["N", "K", "J", "Space"], id: \.self) { key in Text("⌥ ⌘ \(key)").tag(key) } }
+            Picker("Open / close NotchHarbor", selection: binding(\.shortcutKey)) { ForEach(["N", "K", "J", "Space"], id: \.self) { key in Text("⌥ ⌘ \(key)").tag(key) } }
             if let error = state.shortcutError { Text(error).foregroundStyle(.orange).font(.caption) }
             LabeledContent("Dismiss the focused notch", value: "Esc")
             Text("Hover for playback controls. The compact music bars and hovered media scrubber follow system audio while visible. Click the artwork for lyrics; use the back arrow to return. Swipe sideways to switch widgets, or vertically in the player to switch sources.").font(.caption).foregroundStyle(.secondary)
@@ -158,14 +163,14 @@ struct SettingsView: View {
     private var about: some View {
         Group {
             Section {
-                Text("Notch").font(.largeTitle.weight(.semibold))
+                Text("NotchHarbor").font(.largeTitle.weight(.semibold))
                 Text("A small, native home for what’s happening now.").foregroundStyle(.secondary)
                 LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.1.0")
                 LabeledContent("Built for", value: "Intel & Apple silicon · macOS 13+")
             }
             UpdateSettings(service: state.updates)
             Section("Your data") {
-                Text("Settings and timer state stay on this Mac. Music artwork comes from the player. Opening lyrics sends the track title, artist, album, and duration to LRCLIB. Codex reads quota through its local signed-in service. Notch adds no analytics or cloud account.").font(.callout).foregroundStyle(.secondary)
+                Text("Settings and timer state stay on this Mac. Music artwork comes from the player. Opening lyrics sends the track title, artist, album, and duration to LRCLIB. Codex reads quota through its local signed-in service. NotchHarbor adds no analytics or cloud account.").font(.callout).foregroundStyle(.secondary)
                 Text("Planned next: v1.2 file shelf; v1.3 opt-in clipboard history and snippets; v1.4 calendar and reminders.").font(.caption).foregroundStyle(.secondary)
             }
         }
@@ -174,8 +179,8 @@ struct SettingsView: View {
         do {
             if value { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
             loginEnabled = SMAppService.mainApp.status == .enabled
-            loginError = SMAppService.mainApp.status == .requiresApproval ? "Allow Notch in System Settings → General → Login Items." : nil
-        } catch { loginError = "macOS could not update Login Items. Install Notch in Applications and try again."; loginEnabled = SMAppService.mainApp.status == .enabled }
+            loginError = SMAppService.mainApp.status == .requiresApproval ? "Allow NotchHarbor in System Settings → General → Login Items." : nil
+        } catch { loginError = "macOS could not update Login Items. Install NotchHarbor in Applications and try again."; loginEnabled = SMAppService.mainApp.status == .enabled }
     }
     private func chooseCodex() {
         let picker = NSOpenPanel(); picker.canChooseDirectories = false; picker.allowsMultipleSelection = false; picker.message = "Choose the Codex executable."
@@ -202,7 +207,7 @@ private struct UpdateSettings: View {
             if let date = service.lastUpdateCheckDate {
                 LabeledContent("Last checked") { Text(date, format: .dateTime.month().day().hour().minute()) }
             }
-            Text(service.configured ? "Updates are checked hourly and verified before installation. Automatic updates install when Notch quits or relaunches." : service.status)
+            Text(service.configured ? "Updates are checked hourly and verified before installation. Automatic updates install when NotchHarbor quits or relaunches." : service.status)
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -219,8 +224,12 @@ private struct AudioCaptureSettings: View {
             }
             if service.isSupported {
                 HStack {
-                    Button("Audio permission settings…") { service.openAudioSettings() }
-                    if service.needsRetry {
+                    if service.setupRequired {
+                        Button("Enable live visualizer") { service.retry() }
+                    } else {
+                        Button("Audio permission settings…") { service.openAudioSettings() }
+                    }
+                    if service.needsRetry && !service.setupRequired {
                         Button("Retry visualizer") { service.retry() }
                     }
                 }

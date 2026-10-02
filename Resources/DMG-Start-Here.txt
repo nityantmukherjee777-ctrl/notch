@@ -1,0 +1,33 @@
+NotchHarbor — Start Here
+
+1. Drag NotchHarbor.app onto Applications in this window.
+2. Eject the NotchHarbor disk image.
+3. Open NotchHarbor from Applications. Keep this one installed copy.
+4. Open Settings → Setup from its menu-bar icon.
+
+Permissions are optional and must be approved by you in macOS:
+
+Accessibility: lets NotchHarbor handle volume and brightness keyboard keys.
+Open Accessibility from Setup, unlock if asked, and enable NotchHarbor.
+If it is missing, click + and select the Applications copy. Return to Setup
+to check its status. Without access, normal macOS keyboard controls work.
+
+Automation: click Connect Spotify or Connect Apple Music and approve the
+corresponding macOS prompt. Browser Now Playing does not need this grant.
+
+System Audio Recording Only (macOS 14.2+): click Enable live visualizer.
+The macOS prompt appears when playback needs the bars. Approve if desired;
+if offered Quit & Reopen, use it once. After a denial, use Open audio
+permissions, then Retry visualizer. No microphone or screen images are used.
+
+Bluetooth alerts are separately optional. Codex tracking uses your existing
+local sign-in. Setup never changes or resets macOS privacy permissions.
+
+This personal/test build is signed with a retained local certificate, not an
+Apple Developer ID certificate, and is not notarized. If macOS blocks a
+downloaded copy, verify its source and checksum first, then use System
+Settings → Privacy & Security → Open Anyway if you choose to trust it.
+No command-line security bypass is needed. Older macOS versions may phrase
+the approval differently. Managed Macs can restrict this approval.
+
+Project: https://github.com/nityantmukherjee777-ctrl/notchharbor

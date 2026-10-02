@@ -179,7 +179,7 @@ import NotchCore
         enabledActivities.map { id in
             switch id {
             case .music: return LiveActivity(id: id, provider: music.track?.source.name ?? "Music", title: music.track?.title ?? "Nothing playing", detail: music.track?.artist ?? "", isActive: music.track != nil, actions: ["playpause", "previous", "next", "seek"])
-            case .timer: return LiveActivity(id: id, provider: "Notch", title: timer.countdown.name, detail: clockString(timer.remaining), isActive: timer.countdown.isActive, actions: ["start", "pause", "resume", "reset"])
+            case .timer: return LiveActivity(id: id, provider: "NotchHarbor", title: timer.countdown.name, detail: clockString(timer.remaining), isActive: timer.countdown.isActive, actions: ["start", "pause", "resume", "reset"])
             case .codex: return LiveActivity(id: id, provider: "Codex", title: "Codex usage", detail: codex.status, isActive: preferences.codexEnabled, actions: ["refresh"])
             case .power: return LiveActivity(id: id, provider: "macOS", title: "Keep Awake", detail: power.isAwake ? "On" : "Off", isActive: power.isAwake, actions: ["toggle"])
             }

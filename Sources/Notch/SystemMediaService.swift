@@ -32,7 +32,7 @@ import AppKit
         commands.removeAll(); process = nil; output = nil; errors = nil; buffer = Data()
     }
     private func connect() {
-        guard enabled, let arguments = baseArguments else { onError?("Browser media helper is missing. Rebuild Notch."); return }
+        guard enabled, let arguments = baseArguments else { onError?("Browser media helper is missing. Rebuild NotchHarbor."); return }
         generation = UUID(); let epoch = generation
         let child = Process(), stdout = Pipe(), stderr = Pipe()
         child.executableURL = URL(fileURLWithPath: "/usr/bin/perl")

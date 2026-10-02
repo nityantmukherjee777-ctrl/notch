@@ -51,6 +51,34 @@ private final class FakeAudioStream: AudioCaptureStream {
         try? await Task.sleep(for: .milliseconds(milliseconds))
     }
 
+    @Test func freshInstallWaitsForExplicitAudioOptInAndRemembersIt() async {
+        let fixture = CaptureFixture()
+        var attempts = 0
+        let stream = FakeAudioStream()
+        let service = AudioVisualizerService(defaults: fixture.defaults, factory: { _, _ in
+            attempts += 1
+            return stream
+        }, captureEnabled: false, dispose: { $0.stop() }, monitorHealth: false)
+        service.setCompactActive(true); service.setActive(true); service.recover()
+        await settle(390)
+        #expect(service.setupRequired && attempts == 0)
+        service.retry(); await settle()
+        #expect(!service.setupRequired && attempts == 1)
+        #expect(fixture.defaults.bool(forKey: "audioVisualizerOptedIn"))
+        service.stop()
+        let relaunched = AudioVisualizerService(defaults: fixture.defaults, captureSupported: true, monitorHealth: false)
+        #expect(relaunched.captureEnabled && !relaunched.setupRequired)
+        #expect(stream.stops == 1)
+    }
+
+    @Test func existingSuccessfulCaptureKeepsWorkingWithoutNewOptIn() {
+        let fixture = CaptureFixture()
+        fixture.defaults.set(true, forKey: "audioVisualizerHasCaptured")
+        let service = AudioVisualizerService(defaults: fixture.defaults, captureSupported: true, monitorHealth: false)
+        #expect(service.hasCaptured && service.captureEnabled && !service.setupRequired)
+        service.stop()
+    }
+
     @Test func unsupportedAudioNeverStartsOrRetriesCapture() async {
         let fixture = CaptureFixture()
         fixture.defaults.set(true, forKey: "audioVisualizerNeedsRetry")

@@ -159,7 +159,7 @@ private struct MusicResult {
             let result = AEDeterminePermissionToAutomateTarget(target.aeDesc, typeWildCard, typeWildCard, true)
             Task { @MainActor in
                 guard let self, self.generation == epoch else { return }
-                if result != noErr { self.messages[source] = "Allow Notch in System Settings → Privacy & Security → Automation." }
+                if result != noErr { self.messages[source] = "Allow NotchHarbor in System Settings → Privacy & Security → Automation." }
                 self.refresh()
             }
         }

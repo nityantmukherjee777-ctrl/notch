@@ -6,7 +6,7 @@ import re
 import subprocess
 import sys
 
-app = Path(sys.argv[1] if len(sys.argv) > 1 else "dist/Notch.app").resolve()
+app = Path(sys.argv[1] if len(sys.argv) > 1 else "dist/NotchHarbor.app").resolve()
 info = plistlib.loads((app / "Contents/Info.plist").read_bytes())
 minimum = info["LSMinimumSystemVersion"]
 def version(value):

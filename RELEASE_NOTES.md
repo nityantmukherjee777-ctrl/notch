@@ -1,3 +1,12 @@
+# v1.1.0 build 22 — NotchHarbor and installation setup
+
+- Renamed the app and GitHub repository to NotchHarbor, retaining the bundle identifier, executable and signing requirement.
+- Added first-launch Setup with separate Accessibility, music Automation and optional audio controls. New installs enable audio visualization explicitly; existing successful capture remains enabled.
+- Mounted/translocated copies ask users to install before starting services.
+- Prepared a local/test drag-to-Applications DMG with instructions and verified contents. No public binary or feed is published; this personal build is not notarized.
+- Reviewed the complete public source history and retained a default-deny file allowlist.
+- Validation: 69 app regression checks and 7 update/signing checks passed; universal binary metadata and retained signatures passed. Fresh-Mac and older-hardware testing remain outstanding.
+
 # v1.1.0 build 21 — older-Mac compatibility
 
 - Lowered the deployment target to macOS Ventura 13.0 and packaged Intel and Apple silicon executables in one universal app, including the media adapter and Sparkle helpers.

@@ -103,7 +103,7 @@ struct NotchRoot: View {
                             wingWidth: (114 * state.preferences.compactScale - 16) / 2,
                             height: NotchGeometry.compactHeight(safeTop: safeTop))
                             .id(device.id)
-                    }.help("\(device.statusDescription) · open Notch")
+                    }.help("\(device.statusDescription) · open NotchHarbor")
                         .transition(.opacity)
                 } else {
                     compact.frame(width: compactWidth).transition(.opacity)
@@ -144,10 +144,10 @@ struct NotchRoot: View {
             } else {
                 Button { open(nil, true) } label: {
                     HStack {
-                        if safeTop == 0 { Image(systemName: "circle.lefthalf.filled"); Text("Notch").font(.system(size: 12, weight: .medium)) }
+                        if safeTop == 0 { Image(systemName: "circle.lefthalf.filled"); Text("NotchHarbor").font(.system(size: 12, weight: .medium)) }
                         Spacer(minLength: 0)
                     }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                }.help("Open Notch")
+                }.help("Open NotchHarbor")
             }
             if state.power.isAwake {
                 Button { state.power.stop() } label: { Image(systemName: "cup.and.saucer.fill").font(.system(size: 12)).foregroundStyle(state.tint).frame(width: 30, height: 30) }

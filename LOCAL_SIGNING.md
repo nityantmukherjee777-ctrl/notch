@@ -36,7 +36,7 @@ described in [PRODUCTION.md](PRODUCTION.md).
 ## Subsequent builds
 
 Run `./scripts/build.sh`. It signs the framework and app with the retained
-certificate and validates the package before replacing `dist/Notch.app`. A
+certificate and validates the package before replacing `dist/NotchHarbor.app`. A
 signing failure leaves the existing app intact. No ad-hoc fallback is allowed.
 During signing, the private keychain is added temporarily to the user's search
 list so `codesign` can resolve the certificate chain; the original list is

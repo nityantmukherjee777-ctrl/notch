@@ -1,6 +1,6 @@
 # Security
 
-Notch is an unsandboxed macOS menu-bar app. Accessibility is used only for its
+NotchHarbor is an unsandboxed macOS menu-bar app. Accessibility is used only for its
 shortcut/HUD integration; system audio is sampled only while compact playback
 bars are visible or the media visualizer is hovered during playback.
 It does not request microphone access, save captured audio, or add analytics.

@@ -126,7 +126,7 @@ import NotchCore
         process = child; fetching = true; status = "Connecting to Codex…"
         do {
             try child.run()
-            send(["id": 1, "method": "initialize", "params": ["clientInfo": ["name": "notch_usage", "title": "Notch", "version": "1.0.0"]]])
+            send(["id": 1, "method": "initialize", "params": ["clientInfo": ["name": "notch_usage", "title": "NotchHarbor", "version": "1.0.0"]]])
             armTimeout(epoch: epoch)
         } catch {
             disconnect(); status = "Couldn’t connect"; lastError = "The selected Codex executable could not be started."

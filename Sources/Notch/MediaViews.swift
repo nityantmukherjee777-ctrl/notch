@@ -80,7 +80,7 @@ struct MediaScrubber: View {
                 PremiumSlider(value: Binding(get: { seeking ? seek : pendingSeek ?? min(track.duration, max(0, track.position)) }, set: { value in
                     seek = value
                 }), range: 0...max(1, track.duration), tint: tint, label: "Playback position",
-                   hoverVisualizer: visualizer.error == nil, controlHeight: 26, visualizerLevels: visualizer.levels,
+                   hoverVisualizer: visualizer.isSupported && visualizer.captureEnabled && visualizer.error == nil, controlHeight: 26, visualizerLevels: visualizer.levels,
                    onHoverChanged: { scrubberHovered = $0; visualizer.setActive($0 && track.playing) }, onEditingChanged: { editing in
                     if editing {
                         seekToken = UUID()

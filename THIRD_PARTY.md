@@ -36,3 +36,8 @@ Build 13 replaces the earbuds with a reference-guided render and uses them direc
 > Create ONLY a transparent product-icon asset of the two AirPods Pro earbuds visible on the LEFT in the supplied Dynamic Island screenshot. Closely match their real proportions, orientation and understated gray-white lighting: small oval housings, long slim vertical stems, one turned slightly sideways with silicone tip, the other facing forward with dark oval vent. They stand side by side with a little space and no overlap, evenly sized. Clean realistic 3D rendering, soft silver-gray shading, restrained specular light. Tightly frame the pair centered in a square canvas with 8% transparent margin. Output has fully transparent background. Do NOT include the black pill, green ring, scene, lettering, charging case, drop shadow, halo, bloom, glow, reflections outside the earbuds, or giant rounded heads. This image must remain legible as a 28-pixel native macOS status icon.
 
 [Varun Vachhar’s metaball explanation](https://varun.ca/metaballs/) was a motion reference. The app's continuous signed-distance contour implementation is local Swift code, with no runtime library or copied example code.
+
+## DMG build tools
+
+- [ds-store](https://github.com/dmgbuild/ds_store), pinned 1.3.1, and [mac-alias](https://github.com/dmgbuild/mac_alias), pinned 2.2.2, are installed from PyPI only into the ignored build folder. Both use the MIT license, retained with the installed distributions.
+- They write Finder layout metadata during packaging. Neither package is embedded in the app or source archive. The background renderer and packaging script are project source.
