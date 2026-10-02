@@ -18,6 +18,5 @@ arrow.move(to: CGPoint(x: 373, y: 235)); arrow.line(to: CGPoint(x: 384, y: 224))
 arrow.lineWidth = 2.5; arrow.lineCapStyle = .round; arrow.lineJoinStyle = .round
 NSColor(white: 0.42, alpha: 1).setStroke(); arrow.stroke()
 text("Then eject this disk and open the installed app.", y: 131, size: 13, color: NSColor(white: 0.36, alpha: 1))
-text("The Setup page guides you through optional permissions.", y: 22, size: 12, color: NSColor(white: 0.42, alpha: 1))
 NSGraphicsContext.restoreGraphicsState()
 try bitmap.representation(using: .tiff, properties: [:])!.write(to: URL(fileURLWithPath: CommandLine.arguments[1]))
